@@ -1,0 +1,49 @@
+<div class="container mt-4">
+  <h2>Book Manager</h2>
+
+  <form [formGroup]="bookForm" (ngSubmit)="editingBook ? updateBook() : onSubmit()" class="mb-3">
+    <div class="form-group mb-2">
+      <input class="form-control" formControlName="title" placeholder="Title" />
+      <div *ngIf="bookForm.get('title')?.invalid && bookForm.get('title')?.touched" class="text-danger">
+        Title is required.
+      </div>
+    </div>
+
+    <div class="form-group mb-2">
+      <input class="form-control" formControlName="author" placeholder="Author" />
+      <div *ngIf="bookForm.get('author')?.invalid && bookForm.get('author')?.touched" class="text-danger">
+        Author is required.
+      </div>
+    </div>
+
+    <div class="form-group mb-2">
+      <input class="form-control" formControlName="isbn" placeholder="ISBN" />
+      <div *ngIf="bookForm.get('isbn')?.invalid && bookForm.get('isbn')?.touched" class="text-danger">
+        Valid ISBN required.
+      </div>
+    </div>
+
+    <div class="form-group mb-2">
+      <input class="form-control" formControlName="publicationDate" placeholder="Publication Date" type="date" />
+    </div>
+
+    <button class="btn btn-primary" type="submit" [disabled]="bookForm.invalid">
+      {{ editingBook ? 'Update' : 'Add Book' }}
+    </button>
+    <button *ngIf="editingBook" class="btn btn-secondary ms-2" type="button" (click)="cancelEdit()">Cancel</button>
+  </form>
+
+  <ul class="list-group">
+    <li *ngFor="let book of books" class="list-group-item d-flex justify-content-between align-items-center">
+      <div>
+        <strong>{{ book.title }}</strong> by {{ book.author }}<br />
+        ISBN: {{ book.isbn }} | Date: {{ book.publicationDate }}
+      </div>
+      <div>
+        <button class="btn btn-sm btn-warning me-2" (click)="editBook(book)">Edit</button>
+        <button class="btn btn-sm btn-danger" (click)="deleteBook(book.id)">Delete</button>
+      </div>
+    </li>
+  </ul>
+</div>
+
